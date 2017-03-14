@@ -7,14 +7,14 @@ import java.sql.*;
 
 public class NewsDatabaseDao implements NewsDao {
 
-    private final Connection con;
+
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
     public NewsDatabaseDao(Connection con) throws SQLException {
-        this.con = con;
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=false&useSSL=true", "root", "admin");;
 
         getByIdStmt = con.prepareStatement("SELECT * FROM news WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
@@ -80,4 +80,6 @@ public class NewsDatabaseDao implements NewsDao {
             e.printStackTrace();
         }
     }
+
+
 }

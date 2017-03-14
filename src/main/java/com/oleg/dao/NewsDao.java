@@ -11,4 +11,5 @@ public interface NewsDao extends ItemDao<News> {
     void update(News news);
 
     void delete(int id);
+
 }

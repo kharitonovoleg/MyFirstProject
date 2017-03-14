@@ -8,6 +8,19 @@ public class User extends Model {
     private String password;
     private String email;
 
+    public User(String nickname, String firstName, String secondName, String password, String email) {
+        this.nickname = nickname;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User() {
+
+    }
+
+
     public String getNickname() {
         return nickname;
     }
