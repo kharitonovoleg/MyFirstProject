@@ -5,6 +5,8 @@ import com.oleg.first.User;
 
 import java.sql.*;
 
+import static java.sql.DriverManager.getConnection;
+
 public class UserDatabaseDao implements UserDao {
 
     private PreparedStatement getByIdStmt;
@@ -12,9 +14,11 @@ public class UserDatabaseDao implements UserDao {
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
+    Connection con = getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=" +
+            "false&useSSL=true", "root", "admin");
 
-    public UserDatabaseDao(Connection con) throws SQLException {
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=false&useSSL=true", "root", "admin");;
+    public UserDatabaseDao() throws SQLException {
+
 
         getByIdStmt = con.prepareStatement("SELECT * FROM user WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
@@ -39,6 +43,7 @@ public class UserDatabaseDao implements UserDao {
     }
 
     public User getById(int id) throws SQLException {
+
         User user = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -51,7 +56,7 @@ public class UserDatabaseDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            getByIdStmt.close();
+          getByIdStmt.close();
         }
         return user;
     }
@@ -106,4 +111,5 @@ public class UserDatabaseDao implements UserDao {
             }
         }
     }
+
 }
