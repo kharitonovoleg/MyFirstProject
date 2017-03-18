@@ -1,19 +1,21 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.EventDao;
+import com.oleg.dao.AbstractDAO;
+import com.oleg.first.ConnectorDB;
 import com.oleg.first.Event;
 
 import java.sql.*;
 
-public class EventDatabaseDao implements EventDao {
-    private final Connection con;
+public class EventDatabaseDao extends AbstractDAO<Event> {
+
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
+    Connection con = ConnectorDB.getConnection();
+
     public EventDatabaseDao(Connection con) throws SQLException {
-        this.con = con;
 
         getByIdStmt = con.prepareStatement("SELECT * FROM event WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE event SET eventName=?, text=?, type=?, city=?, street=?, " +

@@ -1,20 +1,15 @@
 package com.oleg.first;
 
-
 import com.oleg.dao.impl.NewsDatabaseDao;
 import com.oleg.dao.impl.UserDatabaseDao;
-
 import java.sql.*;
-
-import static java.sql.DriverManager.getConnection;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
 
+        Connection con = ConnectorDB.getConnection();
 
-        Connection con = getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=" +
-                "false&useSSL=true", "root", "admin");
-        UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+        UserDatabaseDao userDatabaseDao = new UserDatabaseDao(con);
         NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao(con);
 
         //User user1 = new User("148", "fn", "sn", "132", "111");
@@ -23,8 +18,16 @@ public class Main {
         System.out.println(userDatabaseDao.getById(2));
         System.out.println(userDatabaseDao.getById(3));
 
+        userDatabaseDao.closeConnection(con);
+
         System.out.println(newsDatabaseDao.getById(4));
         System.out.println(userDatabaseDao.getById(2));
+
+
+
+
+
+
 
     }
 

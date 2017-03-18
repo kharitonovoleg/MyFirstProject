@@ -1,24 +1,20 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.UserDao;
+import com.oleg.dao.AbstractDAO;
+import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
-
 import java.sql.*;
 
-import static java.sql.DriverManager.getConnection;
-
-public class UserDatabaseDao implements UserDao {
+public class UserDatabaseDao extends AbstractDAO<User> {
 
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
-    Connection con = getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=" +
-            "false&useSSL=true", "root", "admin");
+    Connection con = ConnectorDB.getConnection();
 
-    public UserDatabaseDao() throws SQLException {
-
+    public UserDatabaseDao(Connection con) throws SQLException {
 
         getByIdStmt = con.prepareStatement("SELECT * FROM user WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
@@ -51,12 +47,9 @@ public class UserDatabaseDao implements UserDao {
             if (rs.next()) {
                 user = getUser(rs);
             }
-            rs.close();
-            getByIdStmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-          getByIdStmt.close();
         }
         return user;
     }
@@ -67,8 +60,6 @@ public class UserDatabaseDao implements UserDao {
             updateStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            updateStmt.close();
         }
     }
 
@@ -83,8 +74,6 @@ public class UserDatabaseDao implements UserDao {
             addStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            addStmt.close();
         }
     }
 
@@ -95,8 +84,6 @@ public class UserDatabaseDao implements UserDao {
             deleteStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            deleteStmt.close();
         }
     }
 
@@ -111,5 +98,4 @@ public class UserDatabaseDao implements UserDao {
             }
         }
     }
-
 }

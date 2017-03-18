@@ -1,20 +1,21 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.NewsDao;
+import com.oleg.dao.AbstractDAO;
+import com.oleg.first.ConnectorDB;
 import com.oleg.first.News;
 
 import java.sql.*;
 
-public class NewsDatabaseDao implements NewsDao {
-
+public class NewsDatabaseDao extends AbstractDAO<News> {
 
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
+    Connection con = ConnectorDB.getConnection();
+
     public NewsDatabaseDao(Connection con) throws SQLException {
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/first_project?verifyServerCertificate=false&useSSL=true", "root", "admin");;
 
         getByIdStmt = con.prepareStatement("SELECT * FROM news WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");

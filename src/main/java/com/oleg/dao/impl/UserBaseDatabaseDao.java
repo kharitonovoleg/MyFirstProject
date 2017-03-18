@@ -1,19 +1,21 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.UserBaseDao;
+import com.oleg.dao.AbstractDAO;
+import com.oleg.first.ConnectorDB;
 import com.oleg.first.UserBase;
 
 import java.sql.*;
 
-public class UserBaseDatabaseDao implements UserBaseDao {
-    private final Connection con;
+public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
+
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
+    Connection con = ConnectorDB.getConnection();
+
     public UserBaseDatabaseDao(Connection con) throws SQLException {
-        this.con = con;
 
         getByIdStmt = con.prepareStatement("SELECT * FROM user_base WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user_base SET userId=?, userEventId=? WHERE id=?");
