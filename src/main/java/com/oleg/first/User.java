@@ -17,7 +17,6 @@ public class User extends Model {
     }
 
     public User() {
-
     }
 
 

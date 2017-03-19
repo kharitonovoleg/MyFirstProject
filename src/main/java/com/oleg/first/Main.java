@@ -23,12 +23,5 @@ public class Main {
         System.out.println(newsDatabaseDao.getById(4));
         System.out.println(userDatabaseDao.getById(2));
 
-
-
-
-
-
-
     }
-
 }

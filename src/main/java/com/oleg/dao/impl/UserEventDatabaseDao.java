@@ -26,11 +26,9 @@ public class UserEventDatabaseDao extends AbstractDAO<UserEvent> {
     private UserEvent getUserEvent(ResultSet rs) throws SQLException {
 
         UserEvent userEvent = new UserEvent();
-
         userEvent.setId(rs.getInt("id"));
         userEvent.setUserId(rs.getInt("userId"));
         userEvent.setEventId(rs.getInt("eventId"));
-
         return userEvent;
     }
 
@@ -46,7 +44,6 @@ public class UserEventDatabaseDao extends AbstractDAO<UserEvent> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return userEvent;
     }
 

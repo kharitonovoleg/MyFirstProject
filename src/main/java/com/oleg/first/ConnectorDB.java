@@ -13,5 +13,4 @@ public class ConnectorDB {
         String pass = resource.getString("db.password");
         return DriverManager.getConnection(url, user, pass);
     }
-
 }

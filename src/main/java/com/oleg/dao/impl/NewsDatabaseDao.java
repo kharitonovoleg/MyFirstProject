@@ -49,7 +49,6 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return news;
     }
 
