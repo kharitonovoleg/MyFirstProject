@@ -13,6 +13,7 @@ public class Main {
         NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao(con);
 
         //User user1 = new User("148", "fn", "sn", "132", "111");
+
         //userDatabaseDao.add(user1);
         System.out.println(userDatabaseDao.getById(1));
         System.out.println(userDatabaseDao.getById(2));
