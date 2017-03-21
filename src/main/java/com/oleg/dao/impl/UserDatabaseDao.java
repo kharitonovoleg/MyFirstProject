@@ -94,6 +94,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             if (con != null) {
                 con.close();
             }
+            System.out.println("Connection close");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,6 +114,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             if (deleteStmt != null) {
                 deleteStmt.close();
             }
+            System.out.println("Statement close");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error close Statement");
