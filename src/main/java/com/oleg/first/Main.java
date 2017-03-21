@@ -1,28 +1,25 @@
 package com.oleg.first;
 
-import com.oleg.dao.impl.NewsDatabaseDao;
-import com.oleg.dao.impl.UserDatabaseDao;
+import com.oleg.dao.impl.*;
 import java.sql.*;
 
 public class Main {
+
     public static void main(String[] args) throws SQLException {
 
-        Connection con = ConnectorDB.getConnection();
+        UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+        NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao();
+        EventDatabaseDao eventDatabaseDao = new EventDatabaseDao();
+        UserBaseDatabaseDao userBaseDatabaseDao = new UserBaseDatabaseDao();
+        UserEventDatabaseDao userEventDatabaseDao = new UserEventDatabaseDao();
 
-        UserDatabaseDao userDatabaseDao = new UserDatabaseDao(con);
-        NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao(con);
-
-        //User user1 = new User("148", "fn", "sn", "132", "111");
-
-        //userDatabaseDao.add(user1);
         System.out.println(userDatabaseDao.getById(1));
-        System.out.println(userDatabaseDao.getById(2));
-        System.out.println(userDatabaseDao.getById(3));
+        System.out.println(eventDatabaseDao.getById(1));
+        System.out.println(newsDatabaseDao.getById(1));
+        System.out.println(userBaseDatabaseDao.getById(1));
+        System.out.println(userEventDatabaseDao.getById(1));
 
-        userDatabaseDao.closeConnection(con);
-
-        System.out.println(newsDatabaseDao.getById(4));
-        System.out.println(userDatabaseDao.getById(2));
-
+        userDatabaseDao.closeStatement();
+        userDatabaseDao.closeConnection();
     }
 }

@@ -3,7 +3,6 @@ package com.oleg.dao.impl;
 import com.oleg.dao.AbstractDAO;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.News;
-
 import java.sql.*;
 
 public class NewsDatabaseDao extends AbstractDAO<News> {
@@ -15,7 +14,7 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public NewsDatabaseDao(Connection con) throws SQLException {
+    public NewsDatabaseDao() throws SQLException {
 
         getByIdStmt = con.prepareStatement("SELECT * FROM news WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
@@ -32,11 +31,10 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
         news.setHeader(rs.getString("header"));
         news.setText(rs.getString("text"));
         news.setDate(rs.getDate("date"));
-
         return news;
     }
 
-    public News getById(int id) {
+    public News getById(int id) throws SQLException {
         News news = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -44,12 +42,12 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
             if (rs.next()) {
                 news = getNews(rs);
             }
-            getByIdStmt.close();
-
+            return news;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error getting news. Object is empty");
         }
-        return news;
+        throw new SQLException("Error getting news. Object is empty");
     }
 
     public void update(News news) {
@@ -57,6 +55,7 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
             updateStmt.setInt(4, news.getId());
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error update news");
         }
     }
 
@@ -66,9 +65,9 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
             addStmt.setString(2, news.getText());
             addStmt.setDate(3, (Date) news.getDate());
             addStmt.executeUpdate();
-            addStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error add news");
         }
     }
 
@@ -78,8 +77,7 @@ public class NewsDatabaseDao extends AbstractDAO<News> {
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error delete news");
         }
     }
-
-
 }

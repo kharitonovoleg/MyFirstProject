@@ -3,7 +3,6 @@ package com.oleg.dao.impl;
 import com.oleg.dao.AbstractDAO;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.Event;
-
 import java.sql.*;
 
 public class EventDatabaseDao extends AbstractDAO<Event> {
@@ -15,7 +14,7 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public EventDatabaseDao(Connection con) throws SQLException {
+    public EventDatabaseDao() throws SQLException {
 
         getByIdStmt = con.prepareStatement("SELECT * FROM event WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE event SET eventName=?, text=?, type=?, city=?, street=?, " +
@@ -42,7 +41,7 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
         return event;
     }
 
-    public Event getById(int id) {
+    public Event getById(int id) throws SQLException {
         Event event = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -50,12 +49,12 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
             if (rs.next()) {
                 event = getEvent(rs);
             }
-            getByIdStmt.close();
+            return event;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error creating event. Object is empty");
         }
-
-        return event;
+        throw new SQLException("Error creating event. Object is empty");
     }
 
     public void update(Event event) {
@@ -63,6 +62,7 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
             updateStmt.setInt(10, event.getId());
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error update event");
         }
     }
 
@@ -78,9 +78,9 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
             addStmt.setTime(8, event.getEventStartTime());
             addStmt.setDate(9, (Date) event.getDate());
             addStmt.executeUpdate();
-            addStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error add event");
         }
     }
 
@@ -90,6 +90,7 @@ public class EventDatabaseDao extends AbstractDAO<Event> {
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error delete event");
         }
     }
 }

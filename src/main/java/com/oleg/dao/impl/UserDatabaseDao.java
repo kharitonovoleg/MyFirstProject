@@ -15,7 +15,7 @@ public class UserDatabaseDao extends AbstractDAO<User> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserDatabaseDao(Connection con) throws SQLException {
+    public UserDatabaseDao() throws SQLException {
 
         getByIdStmt = con.prepareStatement("SELECT * FROM user WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
@@ -48,19 +48,20 @@ public class UserDatabaseDao extends AbstractDAO<User> {
             if (rs.next()) {
                 user = getUser(rs);
             }
-
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error getting user. Object is empty");
         }
-        return user;
+        throw new SQLException("Error getting user. Object is empty");
     }
 
     public void update(User user) throws SQLException {
         try {
             updateStmt.setInt(4, user.getId());
-            updateStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error update user");
         }
     }
 
@@ -72,9 +73,9 @@ public class UserDatabaseDao extends AbstractDAO<User> {
             addStmt.setString(4, user.getPassword());
             addStmt.setString(5, user.getEmail());
             addStmt.executeUpdate();
-            addStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error add user");
         }
     }
 
@@ -82,21 +83,39 @@ public class UserDatabaseDao extends AbstractDAO<User> {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-            deleteStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error delete user");
+        }
+    }
+
+    public void closeConnection() throws SQLException {
+        try {
+            if (con != null) {
+                con.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void closeConnection(Connection con) throws SQLException {
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                con.close();
+    public  void closeStatement() throws SQLException {
+        try {
+            if (getByIdStmt != null) {
+                getByIdStmt.close();
             }
+            if (updateStmt != null) {
+                updateStmt.close();
+            }
+            if (addStmt != null) {
+                addStmt.close();
+            }
+            if (deleteStmt != null) {
+                deleteStmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error close Statement");
         }
     }
 }

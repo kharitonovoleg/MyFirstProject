@@ -3,7 +3,6 @@ package com.oleg.dao.impl;
 import com.oleg.dao.AbstractDAO;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.UserBase;
-
 import java.sql.*;
 
 public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
@@ -15,12 +14,12 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserBaseDatabaseDao(Connection con) throws SQLException {
+    public UserBaseDatabaseDao() throws SQLException {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM user_base WHERE id=?");
-        updateStmt = con.prepareStatement("UPDATE user_base SET userId=?, userEventId=? WHERE id=?");
-        addStmt = con.prepareStatement("INSERT INTO user_base (userId, userEventId) VALUES (?,?)");
-        deleteStmt = con.prepareStatement("DELETE FROM user_base WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT * FROM users_base WHERE id=?");
+        updateStmt = con.prepareStatement("UPDATE users_base SET userId=?, userEventId=? WHERE id=?");
+        addStmt = con.prepareStatement("INSERT INTO users_base (userId, userEventId) VALUES (?,?)");
+        deleteStmt = con.prepareStatement("DELETE FROM users_base WHERE id=?");
     }
 
     private UserBase getUserBase(ResultSet rs) throws SQLException {
@@ -29,11 +28,10 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
         userBase.setId(rs.getInt("id"));
         userBase.setUserId(rs.getInt("userId"));
         userBase.setUserEventId(rs.getInt("userEventId"));
-
         return userBase;
     }
 
-    public UserBase getById(int id) {
+    public UserBase getById(int id) throws SQLException {
         UserBase userBase = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -41,11 +39,12 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
             if (rs.next()) {
                 userBase = getUserBase(rs);
             }
-            getByIdStmt.close();
+            return userBase;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error getting userBase. Object is empty");
         }
-        return userBase;
+        throw new SQLException("Error getting userBase. Object is empty");
     }
 
     public void update(UserBase userBase) {
@@ -53,6 +52,7 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
             updateStmt.setInt(3, userBase.getId());
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error update userBase");
         }
     }
 
@@ -61,9 +61,9 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
             addStmt.setInt(1, userBase.getUserId());
             addStmt.setInt(2, userBase.getUserEventId());
             addStmt.executeUpdate();
-            addStmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error add userBase");
         }
     }
 
@@ -73,6 +73,7 @@ public class UserBaseDatabaseDao extends AbstractDAO<UserBase> {
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error delete userBase");
         }
     }
 }

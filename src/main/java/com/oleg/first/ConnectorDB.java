@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectorDB {
+
+
     public static Connection getConnection() throws SQLException {
         ResourceBundle resource = ResourceBundle.getBundle("database");
         String url = resource.getString("db.url");
@@ -13,4 +15,7 @@ public class ConnectorDB {
         String pass = resource.getString("db.password");
         return DriverManager.getConnection(url, user, pass);
     }
+
+
+
 }
