@@ -1,12 +1,12 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.AbstractDAO;
+import com.oleg.dao.ItemDao;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
 
 import java.sql.*;
 
-public class UserDatabaseDao extends AbstractDAO<User> {
+public class UserDatabaseDao implements ItemDao<User> {
 
     private PreparedStatement getByIdStmt;
     private PreparedStatement updateStmt;
