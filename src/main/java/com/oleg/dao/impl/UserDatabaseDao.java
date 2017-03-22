@@ -1,10 +1,12 @@
 package com.oleg.dao.impl;
 
-import com.oleg.dao.ItemDao;
-import com.oleg.first.ConnectorDB;
-import com.oleg.first.User;
+        import com.oleg.dao.AbstractDAO;
+        import com.oleg.dao.ItemDao;
+        import com.oleg.first.ConnectorDB;
+        import com.oleg.first.Model;
+        import com.oleg.first.User;
 
-import java.sql.*;
+        import java.sql.*;
 
 public class UserDatabaseDao implements ItemDao<User> {
 
@@ -120,4 +122,9 @@ public class UserDatabaseDao implements ItemDao<User> {
             System.out.println("Error close Statement");
         }
     }
+    public void exitProgramm() throws SQLException {
+        closeStatement();
+        closeConnection();
+    }
+
 }

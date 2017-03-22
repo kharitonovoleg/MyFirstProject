@@ -13,4 +13,10 @@ public abstract class AbstractDAO<T extends Model> {
 
     public abstract void add(T model) throws SQLException;
 
+    public abstract void closeConnection() throws SQLException;
+
+    public abstract void closeStatement() throws SQLException;
+
+    public abstract void exitProgramm() throws SQLException;
+
 }
