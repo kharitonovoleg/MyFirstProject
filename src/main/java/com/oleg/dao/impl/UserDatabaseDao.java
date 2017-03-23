@@ -1,12 +1,9 @@
 package com.oleg.dao.impl;
 
-        import com.oleg.dao.AbstractDAO;
-        import com.oleg.dao.ItemDao;
-        import com.oleg.first.ConnectorDB;
-        import com.oleg.first.Model;
-        import com.oleg.first.User;
-
-        import java.sql.*;
+import com.oleg.dao.ItemDao;
+import com.oleg.first.ConnectorDB;
+import com.oleg.first.User;
+import java.sql.*;
 
 public class UserDatabaseDao implements ItemDao<User> {
 
@@ -27,11 +24,9 @@ public class UserDatabaseDao implements ItemDao<User> {
 
     }
 
-
     private User getUser(ResultSet rs) throws SQLException {
 
         User user = new User();
-
         user.setId(rs.getInt("id"));
         user.setNickname(rs.getString("nickname"));
         user.setFirstName(rs.getString("firstName"));
@@ -63,7 +58,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             updateStmt.setInt(4, user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error update user");
+            System.out.println("Error! User don't update!");
         }
     }
 
@@ -76,8 +71,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             addStmt.setString(5, user.getEmail());
             addStmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error add user");
+            System.out.println("Error! New user not added");
         }
     }
 
@@ -86,8 +80,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error delete user");
+            System.out.println("Error. User not deleted");
         }
     }
 
@@ -98,11 +91,11 @@ public class UserDatabaseDao implements ItemDao<User> {
             }
             System.out.println("Connection close");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error. Connection is not closed");
         }
     }
 
-    public  void closeStatement() throws SQLException {
+    public void closeStatement() throws SQLException {
         try {
             if (getByIdStmt != null) {
                 getByIdStmt.close();
@@ -118,13 +111,25 @@ public class UserDatabaseDao implements ItemDao<User> {
             }
             System.out.println("Statement close");
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error close Statement");
+            System.out.println("Error. Statement is not closed");
+        } finally {
+            getByIdStmt.close();
+            updateStmt.close();
+            addStmt.close();
+            deleteStmt.close();
         }
     }
-    public void exitProgramm() throws SQLException {
-        closeStatement();
-        closeConnection();
+
+    public void exitProgram() throws SQLException {
+        try {
+            closeStatement();
+            closeConnection();
+        } catch (Exception e) {
+            System.out.println("Error. Program is not closed");
+        } finally {
+            closeStatement();
+            closeConnection();
+        }
     }
 
 }

@@ -19,6 +19,6 @@ public class Main {
         System.out.println(userBaseDatabaseDao.getById(1));
         System.out.println(userEventDatabaseDao.getById(1));
 
-        userDatabaseDao.exitProgramm();
+        userDatabaseDao.exitProgram();
     }
 }
