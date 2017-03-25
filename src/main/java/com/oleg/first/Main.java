@@ -1,11 +1,10 @@
 package com.oleg.first;
 
 import com.oleg.dao.impl.*;
-import java.sql.*;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
 
         UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
         NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao();

@@ -14,9 +14,10 @@ public class EventDatabaseDao implements ItemDao<Event> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public EventDatabaseDao() throws SQLException {
+    public EventDatabaseDao() throws Exception {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM event WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT id, eventName, text, type, city, street, mobilePhone, phone, " +
+                "eventStartTime, date FROM event WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE event SET eventName=?, text=?, type=?, city=?, street=?, " +
                 "mobilePhone=?, phone=?, eventStartTime=?, date=? WHERE id=?");
         addStmt = con.prepareStatement("INSERT INTO event (eventName, text, type, city, street, mobilePhone, " +
@@ -24,24 +25,27 @@ public class EventDatabaseDao implements ItemDao<Event> {
         deleteStmt = con.prepareStatement("DELETE FROM event WHERE id=?");
     }
 
-    private Event getEvent(ResultSet rs) throws SQLException {
-
-        Event event = new Event();
-
-        event.setId(rs.getInt("id"));
-        event.setEventName(rs.getString("eventName"));
-        event.setText(rs.getString("text"));
-        event.setType(rs.getString("type"));
-        event.setCity(rs.getString("city"));
-        event.setStreet(rs.getString("street"));
-        event.setMobilePhone(rs.getString("mobilePhone"));
-        event.setPhone(rs.getString("phone"));
-        event.setEventStartTime(rs.getTime("eventStartTime"));
-        event.setDate(rs.getDate("date"));
-        return event;
+    private Event getEvent(ResultSet rs) throws Exception {
+        try {
+            Event event = new Event();
+            event.setId(rs.getInt("id"));
+            event.setEventName(rs.getString("eventName"));
+            event.setText(rs.getString("text"));
+            event.setType(rs.getString("type"));
+            event.setCity(rs.getString("city"));
+            event.setStreet(rs.getString("street"));
+            event.setMobilePhone(rs.getString("mobilePhone"));
+            event.setPhone(rs.getString("phone"));
+            event.setEventStartTime(rs.getTime("eventStartTime"));
+            event.setDate(rs.getDate("date"));
+            return event;
+        } catch (Exception e) {
+            System.out.println("Error return event");
+        }
+        throw new Exception("Error return event");
     }
 
-    public Event getById(int id) throws SQLException {
+    public Event getById(int id) throws Exception {
         Event event = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -50,18 +54,16 @@ public class EventDatabaseDao implements ItemDao<Event> {
                 event = getEvent(rs);
             }
             return event;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error creating event. Object is empty");
         }
-        throw new SQLException("Error creating event. Object is empty");
+        throw new Exception("Error creating event. Object is empty");
     }
 
     public void update(Event event) {
         try {
             updateStmt.setInt(10, event.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error update event");
         }
     }
@@ -78,8 +80,7 @@ public class EventDatabaseDao implements ItemDao<Event> {
             addStmt.setTime(8, event.getEventStartTime());
             addStmt.setDate(9, (Date) event.getDate());
             addStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error add event");
         }
     }
@@ -88,8 +89,7 @@ public class EventDatabaseDao implements ItemDao<Event> {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error delete event");
         }
     }

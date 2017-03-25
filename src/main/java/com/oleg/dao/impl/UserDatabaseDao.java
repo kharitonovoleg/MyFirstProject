@@ -3,6 +3,7 @@ package com.oleg.dao.impl;
 import com.oleg.dao.ItemDao;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
+
 import java.sql.*;
 
 public class UserDatabaseDao implements ItemDao<User> {
@@ -14,9 +15,9 @@ public class UserDatabaseDao implements ItemDao<User> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserDatabaseDao() throws SQLException {
+    public UserDatabaseDao() throws Exception {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM user WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT id, nickname, firstName, secondName, password, email FROM user WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
         addStmt = con.prepareStatement("INSERT INTO user (nickname, firstName, secondName, password, email)" +
                 " VALUES (?,?,?,?,?)");
@@ -24,20 +25,23 @@ public class UserDatabaseDao implements ItemDao<User> {
 
     }
 
-    private User getUser(ResultSet rs) throws SQLException {
-
-        User user = new User();
-        user.setId(rs.getInt("id"));
-        user.setNickname(rs.getString("nickname"));
-        user.setFirstName(rs.getString("firstName"));
-        user.setSecondName(rs.getString("secondName"));
-        user.setPassword(rs.getString("password"));
-        user.setEmail(rs.getString("email"));
-        return user;
+    private User getUser(ResultSet rs) throws Exception {
+        try {
+            User user = new User();
+            user.setId(rs.getInt("id"));
+            user.setNickname(rs.getString("nickname"));
+            user.setFirstName(rs.getString("firstName"));
+            user.setSecondName(rs.getString("secondName"));
+            user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            return user;
+        } catch (Exception e) {
+            System.out.println("Error return user");
+        }
+        throw new Exception("Error return user");
     }
 
-    public User getById(int id) throws SQLException {
-
+    public User getById(int id) throws Exception {
         User user = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -46,23 +50,21 @@ public class UserDatabaseDao implements ItemDao<User> {
                 user = getUser(rs);
             }
             return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error getting user. Object is empty");
         }
-        throw new SQLException("Error getting user. Object is empty");
+        throw new Exception("Error getting user. Object is empty");
     }
 
-    public void update(User user) throws SQLException {
+    public void update(User user) throws Exception {
         try {
             updateStmt.setInt(4, user.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error! User don't update!");
         }
     }
 
-    public void add(User user) throws SQLException {
+    public void add(User user) throws Exception {
         try {
             addStmt.setString(1, user.getNickname());
             addStmt.setString(2, user.getFirstName());
@@ -70,57 +72,74 @@ public class UserDatabaseDao implements ItemDao<User> {
             addStmt.setString(4, user.getPassword());
             addStmt.setString(5, user.getEmail());
             addStmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error! New user not added");
         }
     }
 
-    public void delete(int id) throws SQLException {
+    public void delete(int id) throws Exception {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error. User not deleted");
         }
     }
 
-    public void closeConnection() throws SQLException {
+    public void closeConnection() throws Exception {
         try {
+            con.close();
+        } catch (Exception e) {
+            System.out.println("Error. Connection is not closed");
+        } finally {
             if (con != null) {
                 con.close();
             }
             System.out.println("Connection close");
-        } catch (SQLException e) {
-            System.out.println("Error. Connection is not closed");
         }
     }
 
-    public void closeStatement() throws SQLException {
+    public void closeStatement() throws Exception {
         try {
+            getByIdStmt.close();
+        } catch (Exception e) {
+            System.out.println("Error! getByIdStmt is not closed");
+        } finally {
             if (getByIdStmt != null) {
                 getByIdStmt.close();
             }
+        }
+        try {
+            updateStmt.close();
+        } catch (Exception e) {
+            System.out.println("Error! updateStmt is not closed");
+        } finally {
             if (updateStmt != null) {
                 updateStmt.close();
             }
+        }
+        try {
+            addStmt.close();
+        } catch (Exception e) {
+            System.out.println("Error! addStmt is not closed");
+        } finally {
             if (addStmt != null) {
                 addStmt.close();
             }
+        }
+        try {
+            deleteStmt.close();
+        } catch (Exception e) {
+            System.out.println("Error! deleteStmt is not closed");
+        } finally {
             if (deleteStmt != null) {
                 deleteStmt.close();
             }
-            System.out.println("Statement close");
-        } catch (SQLException e) {
-            System.out.println("Error. Statement is not closed");
-        } finally {
-            getByIdStmt.close();
-            updateStmt.close();
-            addStmt.close();
-            deleteStmt.close();
         }
+        System.out.println("Statement close");
     }
 
-    public void exitProgram() throws SQLException {
+    public void exitProgram() throws Exception {
         try {
             closeStatement();
             closeConnection();
@@ -129,7 +148,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         } finally {
             closeStatement();
             closeConnection();
+            System.out.println("Program closed!");
         }
     }
-
 }

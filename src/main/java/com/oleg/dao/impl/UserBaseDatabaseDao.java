@@ -14,24 +14,28 @@ public class UserBaseDatabaseDao implements ItemDao<UserBase> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserBaseDatabaseDao() throws SQLException {
+    public UserBaseDatabaseDao() throws Exception {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM users_base WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT id, userId, userEventId FROM users_base WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE users_base SET userId=?, userEventId=? WHERE id=?");
         addStmt = con.prepareStatement("INSERT INTO users_base (userId, userEventId) VALUES (?,?)");
         deleteStmt = con.prepareStatement("DELETE FROM users_base WHERE id=?");
     }
 
-    private UserBase getUserBase(ResultSet rs) throws SQLException {
-
-        UserBase userBase = new UserBase();
-        userBase.setId(rs.getInt("id"));
-        userBase.setUserId(rs.getInt("userId"));
-        userBase.setUserEventId(rs.getInt("userEventId"));
-        return userBase;
+    private UserBase getUserBase(ResultSet rs) throws Exception {
+        try {
+            UserBase userBase = new UserBase();
+            userBase.setId(rs.getInt("id"));
+            userBase.setUserId(rs.getInt("userId"));
+            userBase.setUserEventId(rs.getInt("userEventId"));
+            return userBase;
+        } catch (Exception e) {
+            System.out.println("Error return userBase");
+        }
+        throw new Exception("Error return userBase");
     }
 
-    public UserBase getById(int id) throws SQLException {
+    public UserBase getById(int id) throws Exception {
         UserBase userBase = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -40,18 +44,16 @@ public class UserBaseDatabaseDao implements ItemDao<UserBase> {
                 userBase = getUserBase(rs);
             }
             return userBase;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error getting userBase. Object is empty");
         }
-        throw new SQLException("Error getting userBase. Object is empty");
+        throw new Exception("Error getting userBase. Object is empty");
     }
 
     public void update(UserBase userBase) {
         try {
             updateStmt.setInt(3, userBase.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error update userBase");
         }
     }
@@ -61,8 +63,7 @@ public class UserBaseDatabaseDao implements ItemDao<UserBase> {
             addStmt.setInt(1, userBase.getUserId());
             addStmt.setInt(2, userBase.getUserEventId());
             addStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error add userBase");
         }
     }
@@ -71,8 +72,7 @@ public class UserBaseDatabaseDao implements ItemDao<UserBase> {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error delete userBase");
         }
     }

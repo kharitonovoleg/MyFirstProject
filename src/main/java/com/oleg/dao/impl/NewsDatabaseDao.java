@@ -14,27 +14,30 @@ public class NewsDatabaseDao implements ItemDao<News> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public NewsDatabaseDao() throws SQLException {
+    public NewsDatabaseDao() throws Exception {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM news WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT id, header, text, date FROM news WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
         addStmt = con.prepareStatement("INSERT INTO news (header, text, date)" +
                 " VALUES (?,?,?)");
         deleteStmt = con.prepareStatement("DELETE FROM news WHERE id=?");
     }
 
-    private News getNews(ResultSet rs) throws SQLException {
-
-        News news = new News();
-
-        news.setId(rs.getInt("id"));
-        news.setHeader(rs.getString("header"));
-        news.setText(rs.getString("text"));
-        news.setDate(rs.getDate("date"));
-        return news;
+    private News getNews(ResultSet rs) throws Exception {
+        try {
+            News news = new News();
+            news.setId(rs.getInt("id"));
+            news.setHeader(rs.getString("header"));
+            news.setText(rs.getString("text"));
+            news.setDate(rs.getDate("date"));
+            return news;
+        } catch (Exception e) {
+            System.out.println("Error return news");
+        }
+        throw new Exception("Error return news");
     }
 
-    public News getById(int id) throws SQLException {
+    public News getById(int id) throws Exception {
         News news = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -43,18 +46,16 @@ public class NewsDatabaseDao implements ItemDao<News> {
                 news = getNews(rs);
             }
             return news;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error getting news. Object is empty");
         }
-        throw new SQLException("Error getting news. Object is empty");
+        throw new Exception("Error getting news. Object is empty");
     }
 
     public void update(News news) {
         try {
             updateStmt.setInt(4, news.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error update news");
         }
     }
@@ -65,8 +66,7 @@ public class NewsDatabaseDao implements ItemDao<News> {
             addStmt.setString(2, news.getText());
             addStmt.setDate(3, (Date) news.getDate());
             addStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error add news");
         }
     }
@@ -75,8 +75,7 @@ public class NewsDatabaseDao implements ItemDao<News> {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error delete news");
         }
     }

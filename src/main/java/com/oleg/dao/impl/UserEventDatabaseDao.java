@@ -14,24 +14,28 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserEventDatabaseDao() throws SQLException {
+    public UserEventDatabaseDao() throws Exception {
 
-        getByIdStmt = con.prepareStatement("SELECT * FROM user_event WHERE id=?");
+        getByIdStmt = con.prepareStatement("SELECT id, userId, eventId FROM user_event WHERE id=?");
         updateStmt = con.prepareStatement("UPDATE user_event SET userId=?, eventId=? WHERE id=?");
         addStmt = con.prepareStatement("INSERT INTO user_event (userId, eventId) VALUES (?,?)");
         deleteStmt = con.prepareStatement("DELETE FROM user_event WHERE id=?");
     }
 
-    private UserEvent getUserEvent(ResultSet rs) throws SQLException {
-
-        UserEvent userEvent = new UserEvent();
-        userEvent.setId(rs.getInt("id"));
-        userEvent.setUserId(rs.getInt("userId"));
-        userEvent.setEventId(rs.getInt("eventId"));
-        return userEvent;
+    private UserEvent getUserEvent(ResultSet rs) throws Exception {
+        try {
+            UserEvent userEvent = new UserEvent();
+            userEvent.setId(rs.getInt("id"));
+            userEvent.setUserId(rs.getInt("userId"));
+            userEvent.setEventId(rs.getInt("eventId"));
+            return userEvent;
+        } catch (Exception e) {
+            System.out.println("Error return user");
+        }
+        throw new Exception("Error return user");
     }
 
-    public UserEvent getById(int id) throws SQLException {
+    public UserEvent getById(int id) throws Exception {
         UserEvent userEvent = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -40,18 +44,16 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
                 userEvent = getUserEvent(rs);
             }
             return userEvent;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error getting user. Object is empty");
         }
-        throw new SQLException("Error getting user. Object is empty");
+        throw new Exception("Error getting user. Object is empty");
     }
 
     public void update(UserEvent userEvent) {
         try {
             updateStmt.setInt(3, userEvent.getId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error update userEvent");
         }
     }
@@ -61,8 +63,7 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
             addStmt.setInt(1, userEvent.getUserId());
             addStmt.setInt(2, userEvent.getEventId());
             addStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error add userEvent");
         }
     }
@@ -71,8 +72,7 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             System.out.println("Error delete userEvent");
         }
     }
