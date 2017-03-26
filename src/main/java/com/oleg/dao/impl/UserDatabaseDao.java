@@ -16,7 +16,7 @@ public class UserDatabaseDao implements ItemDao<User> {
 
     Connection con = ConnectorDB.getConnection();
 
-    public UserDatabaseDao() throws Exception {
+    public UserDatabaseDao() throws MyException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, nickname, firstName, secondName, password, email FROM user WHERE id=?");
             updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
@@ -144,11 +144,13 @@ public class UserDatabaseDao implements ItemDao<User> {
         try {
             closeStatement();
             closeConnection();
-        } finally {
+        } catch (Exception e) {
+            throw new MyException("Error! deleteStmt is not closed");
+        }
+        finally {
             closeStatement();
             closeConnection();
             System.out.println("Program closed!");
         }
-        throw new MyException("Error. Program is not closed");
     }
 }
