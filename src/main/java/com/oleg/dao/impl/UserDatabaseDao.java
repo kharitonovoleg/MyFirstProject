@@ -4,7 +4,6 @@ import com.oleg.dao.ItemDao;
 import com.oleg.dao.MyException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
-
 import java.sql.*;
 
 public class UserDatabaseDao implements ItemDao<User> {
@@ -145,7 +144,7 @@ public class UserDatabaseDao implements ItemDao<User> {
             closeStatement();
             closeConnection();
         } catch (Exception e) {
-            throw new MyException("Error! deleteStmt is not closed");
+            throw new MyException("Error! Program is not closed");
         }
         finally {
             closeStatement();

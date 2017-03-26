@@ -2,7 +2,6 @@ package com.oleg.first;
 
 import com.oleg.dao.MyException;
 import com.oleg.dao.impl.*;
-
 import java.sql.SQLException;
 
 public class Main {
