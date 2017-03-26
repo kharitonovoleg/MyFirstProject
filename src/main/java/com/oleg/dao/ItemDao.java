@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 public interface ItemDao<T extends Model> {
 
-    T getById(int id) throws Exception;
+    T getById(int id) throws MyException;
 
-     void add(T model) throws Exception;
+     void add(T model) throws MyException;
 
-    void update(T model) throws Exception;
+    void update(T model) throws MyException;
 
-    void delete(int id) throws Exception;
+    void delete(int id) throws MyException;
 
 }
