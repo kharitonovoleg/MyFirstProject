@@ -1,8 +1,10 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
+import com.oleg.dao.MyException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.Event;
+
 import java.sql.*;
 
 public class EventDatabaseDao implements ItemDao<Event> {
@@ -12,20 +14,23 @@ public class EventDatabaseDao implements ItemDao<Event> {
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
-    Connection con = ConnectorDB.getConnection();
+    private Connection con = ConnectorDB.getConnection();
 
-    public EventDatabaseDao() throws Exception {
-
-        getByIdStmt = con.prepareStatement("SELECT id, eventName, text, type, city, street, mobilePhone, phone, " +
-                "eventStartTime, date FROM event WHERE id=?");
-        updateStmt = con.prepareStatement("UPDATE event SET eventName=?, text=?, type=?, city=?, street=?, " +
-                "mobilePhone=?, phone=?, eventStartTime=?, date=? WHERE id=?");
-        addStmt = con.prepareStatement("INSERT INTO event (eventName, text, type, city, street, mobilePhone, " +
-                "phone, eventStartTime, date) VALUES (?,?,?,?,?,?,?,?,?)");
-        deleteStmt = con.prepareStatement("DELETE FROM event WHERE id=?");
+    public EventDatabaseDao() throws MyException {
+        try {
+            getByIdStmt = con.prepareStatement("SELECT id, eventName, text, type, city, street, mobilePhone, phone, " +
+                    "eventStartTime, date FROM event WHERE id=?");
+            updateStmt = con.prepareStatement("UPDATE event SET eventName=?, text=?, type=?, city=?, street=?, " +
+                    "mobilePhone=?, phone=?, eventStartTime=?, date=? WHERE id=?");
+            addStmt = con.prepareStatement("INSERT INTO event (eventName, text, type, city, street, mobilePhone, " +
+                    "phone, eventStartTime, date) VALUES (?,?,?,?,?,?,?,?,?)");
+            deleteStmt = con.prepareStatement("DELETE FROM event WHERE id=?");
+        } catch (SQLException e) {
+            throw new MyException("Error in EventDatabaseDao");
+        }
     }
 
-    private Event getEvent(ResultSet rs) throws Exception {
+    private Event getEvent(ResultSet rs) throws MyException {
         try {
             Event event = new Event();
             event.setId(rs.getInt("id"));
@@ -39,13 +44,12 @@ public class EventDatabaseDao implements ItemDao<Event> {
             event.setEventStartTime(rs.getTime("eventStartTime"));
             event.setDate(rs.getDate("date"));
             return event;
-        } catch (Exception e) {
-            System.out.println("Error return event");
+        } catch (SQLException e) {
+            throw new MyException("Error return event");
         }
-        throw new Exception("Error return event");
     }
 
-    public Event getById(int id) throws Exception {
+    public Event getById(int id) throws MyException {
         Event event = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -54,21 +58,20 @@ public class EventDatabaseDao implements ItemDao<Event> {
                 event = getEvent(rs);
             }
             return event;
-        } catch (Exception e) {
-            System.out.println("Error creating event. Object is empty");
+        } catch (SQLException e) {
+            throw new MyException("Error creating event. Object is empty");
         }
-        throw new Exception("Error creating event. Object is empty");
     }
 
-    public void update(Event event) {
+    public void update(Event event) throws MyException {
         try {
             updateStmt.setInt(10, event.getId());
-        } catch (Exception e) {
-            System.out.println("Error update event");
+        } catch (SQLException e) {
+            throw new MyException("Error update event");
         }
     }
 
-    public void add(Event event) {
+    public void add(Event event) throws MyException {
         try {
             addStmt.setString(1, event.getEventName());
             addStmt.setString(2, event.getText());
@@ -80,17 +83,17 @@ public class EventDatabaseDao implements ItemDao<Event> {
             addStmt.setTime(8, event.getEventStartTime());
             addStmt.setDate(9, (Date) event.getDate());
             addStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error add event");
+        } catch (SQLException e) {
+            throw new MyException("Error add event");
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws MyException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error delete event");
+        } catch (SQLException e) {
+            throw new MyException("Error delete event");
         }
     }
 }

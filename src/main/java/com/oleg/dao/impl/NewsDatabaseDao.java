@@ -1,8 +1,10 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
+import com.oleg.dao.MyException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.News;
+
 import java.sql.*;
 
 public class NewsDatabaseDao implements ItemDao<News> {
@@ -12,18 +14,21 @@ public class NewsDatabaseDao implements ItemDao<News> {
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
-    Connection con = ConnectorDB.getConnection();
+    private Connection con = ConnectorDB.getConnection();
 
-    public NewsDatabaseDao() throws Exception {
-
-        getByIdStmt = con.prepareStatement("SELECT id, header, text, date FROM news WHERE id=?");
-        updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
-        addStmt = con.prepareStatement("INSERT INTO news (header, text, date)" +
-                " VALUES (?,?,?)");
-        deleteStmt = con.prepareStatement("DELETE FROM news WHERE id=?");
+    public NewsDatabaseDao() throws MyException {
+        try {
+            getByIdStmt = con.prepareStatement("SELECT id, header, text, date FROM news WHERE id=?");
+            updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
+            addStmt = con.prepareStatement("INSERT INTO news (header, text, date)" +
+                    " VALUES (?,?,?)");
+            deleteStmt = con.prepareStatement("DELETE FROM news WHERE id=?");
+        } catch (SQLException e) {
+            throw new MyException("Error in NewsDatabaseDao");
+        }
     }
 
-    private News getNews(ResultSet rs) throws Exception {
+    private News getNews(ResultSet rs) throws MyException {
         try {
             News news = new News();
             news.setId(rs.getInt("id"));
@@ -31,13 +36,12 @@ public class NewsDatabaseDao implements ItemDao<News> {
             news.setText(rs.getString("text"));
             news.setDate(rs.getDate("date"));
             return news;
-        } catch (Exception e) {
-            System.out.println("Error return news");
+        } catch (SQLException e) {
+            throw new MyException("Error return news");
         }
-        throw new Exception("Error return news");
     }
 
-    public News getById(int id) throws Exception {
+    public News getById(int id) throws MyException {
         News news = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -46,37 +50,36 @@ public class NewsDatabaseDao implements ItemDao<News> {
                 news = getNews(rs);
             }
             return news;
-        } catch (Exception e) {
-            System.out.println("Error getting news. Object is empty");
+        } catch (SQLException e) {
+            throw new MyException("Error getting news. Object is empty");
         }
-        throw new Exception("Error getting news. Object is empty");
     }
 
-    public void update(News news) {
+    public void update(News news) throws MyException {
         try {
             updateStmt.setInt(4, news.getId());
-        } catch (Exception e) {
-            System.out.println("Error update news");
+        } catch (SQLException e) {
+            throw new MyException("Error update news");
         }
     }
 
-    public void add(News news) {
+    public void add(News news) throws MyException {
         try {
             addStmt.setString(1, news.getHeader());
             addStmt.setString(2, news.getText());
             addStmt.setDate(3, (Date) news.getDate());
             addStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error add news");
+        } catch (SQLException e) {
+            throw new MyException("Error add news");
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws MyException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error delete news");
+        } catch (SQLException e) {
+            throw new MyException("Error delete news");
         }
     }
 }

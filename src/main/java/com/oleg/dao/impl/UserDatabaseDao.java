@@ -14,7 +14,7 @@ public class UserDatabaseDao implements ItemDao<User> {
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
-    Connection con = ConnectorDB.getConnection();
+    private Connection con = ConnectorDB.getConnection();
 
     public UserDatabaseDao() throws MyException {
         try {
@@ -87,7 +87,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         }
     }
 
-    public void closeConnection() throws MyException, SQLException {
+    private void closeConnection() throws MyException, SQLException {
         try {
             con.close();
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         }
     }
 
-    public void closeStatement() throws MyException, SQLException {
+    private void closeStatement() throws MyException, SQLException {
         try {
             getByIdStmt.close();
         } catch (Exception e) {

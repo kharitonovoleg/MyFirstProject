@@ -4,7 +4,7 @@ public class MyException extends Exception {
 
     private Exception hidden;
 
-    public MyException (String message) {
+    public MyException(String message) {
         super(message);
     }
 

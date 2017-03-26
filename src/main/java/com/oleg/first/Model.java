@@ -2,7 +2,7 @@ package com.oleg.first;
 
 public class Model {
 
-    public int id;
+    int id;
 
     public int getId() {
         return id;

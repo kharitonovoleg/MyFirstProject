@@ -1,8 +1,10 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
+import com.oleg.dao.MyException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.UserEvent;
+
 import java.sql.*;
 
 public class UserEventDatabaseDao implements ItemDao<UserEvent> {
@@ -12,30 +14,32 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
     private PreparedStatement addStmt;
     private PreparedStatement deleteStmt;
 
-    Connection con = ConnectorDB.getConnection();
+    private Connection con = ConnectorDB.getConnection();
 
-    public UserEventDatabaseDao() throws Exception {
-
-        getByIdStmt = con.prepareStatement("SELECT id, userId, eventId FROM user_event WHERE id=?");
-        updateStmt = con.prepareStatement("UPDATE user_event SET userId=?, eventId=? WHERE id=?");
-        addStmt = con.prepareStatement("INSERT INTO user_event (userId, eventId) VALUES (?,?)");
-        deleteStmt = con.prepareStatement("DELETE FROM user_event WHERE id=?");
+    public UserEventDatabaseDao() throws MyException {
+        try {
+            getByIdStmt = con.prepareStatement("SELECT id, userId, eventId FROM user_event WHERE id=?");
+            updateStmt = con.prepareStatement("UPDATE user_event SET userId=?, eventId=? WHERE id=?");
+            addStmt = con.prepareStatement("INSERT INTO user_event (userId, eventId) VALUES (?,?)");
+            deleteStmt = con.prepareStatement("DELETE FROM user_event WHERE id=?");
+        } catch (SQLException e) {
+            throw new MyException("Error in UserEventDatabaseDao");
+        }
     }
 
-    private UserEvent getUserEvent(ResultSet rs) throws Exception {
+    private UserEvent getUserEvent(ResultSet rs) throws MyException {
         try {
             UserEvent userEvent = new UserEvent();
             userEvent.setId(rs.getInt("id"));
             userEvent.setUserId(rs.getInt("userId"));
             userEvent.setEventId(rs.getInt("eventId"));
             return userEvent;
-        } catch (Exception e) {
-            System.out.println("Error return user");
+        } catch (SQLException e) {
+            throw new MyException("Error return userEvent");
         }
-        throw new Exception("Error return user");
     }
 
-    public UserEvent getById(int id) throws Exception {
+    public UserEvent getById(int id) throws MyException {
         UserEvent userEvent = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -44,36 +48,35 @@ public class UserEventDatabaseDao implements ItemDao<UserEvent> {
                 userEvent = getUserEvent(rs);
             }
             return userEvent;
-        } catch (Exception e) {
-            System.out.println("Error getting user. Object is empty");
+        } catch (SQLException e) {
+            throw new MyException("Error getting user. Object is empty");
         }
-        throw new Exception("Error getting user. Object is empty");
     }
 
-    public void update(UserEvent userEvent) {
+    public void update(UserEvent userEvent) throws MyException {
         try {
             updateStmt.setInt(3, userEvent.getId());
-        } catch (Exception e) {
-            System.out.println("Error update userEvent");
+        } catch (SQLException e) {
+            throw new MyException("Error update userEvent");
         }
     }
 
-    public void add(UserEvent userEvent) {
+    public void add(UserEvent userEvent) throws MyException {
         try {
             addStmt.setInt(1, userEvent.getUserId());
             addStmt.setInt(2, userEvent.getEventId());
             addStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error add userEvent");
+        } catch (SQLException e) {
+            throw new MyException("Error add userEvent");
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws MyException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error delete userEvent");
+        } catch (SQLException e) {
+            throw new MyException("Error delete userEvent");
         }
     }
 }
