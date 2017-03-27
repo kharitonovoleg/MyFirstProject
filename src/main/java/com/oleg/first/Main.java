@@ -1,8 +1,8 @@
 package com.oleg.first;
 
-        import com.oleg.dao.DaoException;
-        import com.oleg.dao.impl.*;
-        import java.sql.SQLException;
+import com.oleg.dao.DaoException;
+import com.oleg.dao.impl.*;
+import java.sql.SQLException;
 
 public class Main {
 
