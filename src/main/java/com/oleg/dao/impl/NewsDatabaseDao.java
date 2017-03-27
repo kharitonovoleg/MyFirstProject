@@ -1,7 +1,7 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
-import com.oleg.dao.MyException;
+import com.oleg.dao.DaoException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.News;
 
@@ -16,7 +16,7 @@ public class NewsDatabaseDao implements ItemDao<News> {
 
     private Connection con = ConnectorDB.getConnection();
 
-    public NewsDatabaseDao() throws MyException {
+    public NewsDatabaseDao() throws DaoException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, header, text, date FROM news WHERE id=?");
             updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
@@ -24,11 +24,11 @@ public class NewsDatabaseDao implements ItemDao<News> {
                     " VALUES (?,?,?)");
             deleteStmt = con.prepareStatement("DELETE FROM news WHERE id=?");
         } catch (SQLException e) {
-            throw new MyException("Error in NewsDatabaseDao");
+            throw new DaoException("Error in NewsDatabaseDao");
         }
     }
 
-    private News getNews(ResultSet rs) throws MyException {
+    private News getNews(ResultSet rs) throws DaoException {
         try {
             News news = new News();
             news.setId(rs.getInt("id"));
@@ -37,11 +37,11 @@ public class NewsDatabaseDao implements ItemDao<News> {
             news.setDate(rs.getDate("date"));
             return news;
         } catch (SQLException e) {
-            throw new MyException("Error return news");
+            throw new DaoException("Error return news");
         }
     }
 
-    public News getById(int id) throws MyException {
+    public News getById(int id) throws DaoException {
         News news = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -51,35 +51,35 @@ public class NewsDatabaseDao implements ItemDao<News> {
             }
             return news;
         } catch (SQLException e) {
-            throw new MyException("Error getting news. Object is empty");
+            throw new DaoException("Error getting news. Object is empty");
         }
     }
 
-    public void update(News news) throws MyException {
+    public void update(News news) throws DaoException {
         try {
             updateStmt.setInt(4, news.getId());
         } catch (SQLException e) {
-            throw new MyException("Error update news");
+            throw new DaoException("Error update news");
         }
     }
 
-    public void add(News news) throws MyException {
+    public void add(News news) throws DaoException {
         try {
             addStmt.setString(1, news.getHeader());
             addStmt.setString(2, news.getText());
             addStmt.setDate(3, (Date) news.getDate());
             addStmt.executeUpdate();
         } catch (SQLException e) {
-            throw new MyException("Error add news");
+            throw new DaoException("Error add news");
         }
     }
 
-    public void delete(int id) throws MyException {
+    public void delete(int id) throws DaoException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
-            throw new MyException("Error delete news");
+            throw new DaoException("Error delete news");
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
-import com.oleg.dao.MyException;
+import com.oleg.dao.DaoException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
 import java.sql.*;
@@ -15,7 +15,7 @@ public class UserDatabaseDao implements ItemDao<User> {
 
     private Connection con = ConnectorDB.getConnection();
 
-    public UserDatabaseDao() throws MyException {
+    public UserDatabaseDao() throws DaoException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, nickname, firstName, secondName, password, email FROM user WHERE id=?");
             updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
@@ -23,11 +23,11 @@ public class UserDatabaseDao implements ItemDao<User> {
                     " VALUES (?,?,?,?,?)");
             deleteStmt = con.prepareStatement("DELETE FROM user WHERE id=?");
         } catch (SQLException e) {
-            throw new MyException("Error in UserDatabaseDao");
+            throw new DaoException("Error in UserDatabaseDao");
         }
     }
 
-    private User getUser(ResultSet rs) throws MyException {
+    private User getUser(ResultSet rs) throws DaoException {
         try {
             User user = new User();
             user.setId(rs.getInt("id"));
@@ -38,11 +38,11 @@ public class UserDatabaseDao implements ItemDao<User> {
             user.setEmail(rs.getString("email"));
             return user;
         } catch (SQLException e) {
-            throw new MyException("Error return user");
+            throw new DaoException("Error return user");
         }
     }
 
-    public User getById(int id) throws MyException {
+    public User getById(int id) throws DaoException {
         User user = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -52,19 +52,19 @@ public class UserDatabaseDao implements ItemDao<User> {
             }
             return user;
         } catch (SQLException e) {
-            throw new MyException("Error getting user. Object is empty");
+            throw new DaoException("Error getting user. Object is empty");
         }
     }
 
-    public void update(User user) throws MyException {
+    public void update(User user) throws DaoException {
         try {
             updateStmt.setInt(4, user.getId());
         } catch (SQLException e) {
-            throw new MyException("Error! User don't update!");
+            throw new DaoException("Error! User don't update!");
         }
     }
 
-    public void add(User user) throws MyException {
+    public void add(User user) throws DaoException {
         try {
             addStmt.setString(1, user.getNickname());
             addStmt.setString(2, user.getFirstName());
@@ -73,24 +73,24 @@ public class UserDatabaseDao implements ItemDao<User> {
             addStmt.setString(5, user.getEmail());
             addStmt.executeUpdate();
         } catch (Exception e) {
-            throw new MyException("Error! New user not added");
+            throw new DaoException("Error! New user not added");
         }
     }
 
-    public void delete(int id) throws MyException {
+    public void delete(int id) throws DaoException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
         } catch (Exception e) {
-            throw new MyException("Error. User not deleted");
+            throw new DaoException("Error. User not deleted");
         }
     }
 
-    private void closeConnection() throws MyException, SQLException {
+    private void closeConnection() throws DaoException, SQLException {
         try {
             con.close();
         } catch (Exception e) {
-            throw new MyException("Error. Connection is not closed");
+            throw new DaoException("Error. Connection is not closed");
         } finally {
             if (con != null) {
                 con.close();
@@ -99,11 +99,11 @@ public class UserDatabaseDao implements ItemDao<User> {
         }
     }
 
-    private void closeStatement() throws MyException, SQLException {
+    private void closeStatement() throws DaoException, SQLException {
         try {
             getByIdStmt.close();
         } catch (Exception e) {
-            throw new MyException("Error! getByIdStmt is not closed");
+            throw new DaoException("Error! getByIdStmt is not closed");
         } finally {
             if (getByIdStmt != null) {
                 getByIdStmt.close();
@@ -112,7 +112,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         try {
             updateStmt.close();
         } catch (Exception e) {
-            throw new MyException("Error! updateStmt is not closed");
+            throw new DaoException("Error! updateStmt is not closed");
         } finally {
             if (updateStmt != null) {
                 updateStmt.close();
@@ -121,7 +121,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         try {
             addStmt.close();
         } catch (Exception e) {
-            throw new MyException("Error! addStmt is not closed");
+            throw new DaoException("Error! addStmt is not closed");
         } finally {
             if (addStmt != null) {
                 addStmt.close();
@@ -130,7 +130,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         try {
             deleteStmt.close();
         } catch (Exception e) {
-            throw new MyException("Error! deleteStmt is not closed");
+            throw new DaoException("Error! deleteStmt is not closed");
         } finally {
             if (deleteStmt != null) {
                 deleteStmt.close();
@@ -139,17 +139,16 @@ public class UserDatabaseDao implements ItemDao<User> {
         System.out.println("Statement close");
     }
 
-    public void exitProgram() throws MyException, SQLException {
+    public void closeDao() throws DaoException, SQLException {
         try {
             closeStatement();
+        } catch (Exception e) {
+            throw new DaoException("Error! Statement is not closed");
+        }
+        try {
             closeConnection();
         } catch (Exception e) {
-            throw new MyException("Error! Program is not closed");
-        }
-        finally {
-            closeStatement();
-            closeConnection();
-            System.out.println("Program closed!");
+            throw new DaoException("Error! Connection is not closed");
         }
     }
 }

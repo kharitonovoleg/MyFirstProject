@@ -1,7 +1,7 @@
 package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
-import com.oleg.dao.MyException;
+import com.oleg.dao.DaoException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.Event;
 
@@ -16,7 +16,7 @@ public class EventDatabaseDao implements ItemDao<Event> {
 
     private Connection con = ConnectorDB.getConnection();
 
-    public EventDatabaseDao() throws MyException {
+    public EventDatabaseDao() throws DaoException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, eventName, text, type, city, street, mobilePhone, phone, " +
                     "eventStartTime, date FROM event WHERE id=?");
@@ -26,11 +26,11 @@ public class EventDatabaseDao implements ItemDao<Event> {
                     "phone, eventStartTime, date) VALUES (?,?,?,?,?,?,?,?,?)");
             deleteStmt = con.prepareStatement("DELETE FROM event WHERE id=?");
         } catch (SQLException e) {
-            throw new MyException("Error in EventDatabaseDao");
+            throw new DaoException("Error in EventDatabaseDao");
         }
     }
 
-    private Event getEvent(ResultSet rs) throws MyException {
+    private Event getEvent(ResultSet rs) throws DaoException {
         try {
             Event event = new Event();
             event.setId(rs.getInt("id"));
@@ -45,11 +45,11 @@ public class EventDatabaseDao implements ItemDao<Event> {
             event.setDate(rs.getDate("date"));
             return event;
         } catch (SQLException e) {
-            throw new MyException("Error return event");
+            throw new DaoException("Error return event");
         }
     }
 
-    public Event getById(int id) throws MyException {
+    public Event getById(int id) throws DaoException {
         Event event = null;
         try {
             getByIdStmt.setInt(1, id);
@@ -59,19 +59,19 @@ public class EventDatabaseDao implements ItemDao<Event> {
             }
             return event;
         } catch (SQLException e) {
-            throw new MyException("Error creating event. Object is empty");
+            throw new DaoException("Error creating event. Object is empty");
         }
     }
 
-    public void update(Event event) throws MyException {
+    public void update(Event event) throws DaoException {
         try {
             updateStmt.setInt(10, event.getId());
         } catch (SQLException e) {
-            throw new MyException("Error update event");
+            throw new DaoException("Error update event");
         }
     }
 
-    public void add(Event event) throws MyException {
+    public void add(Event event) throws DaoException {
         try {
             addStmt.setString(1, event.getEventName());
             addStmt.setString(2, event.getText());
@@ -84,16 +84,16 @@ public class EventDatabaseDao implements ItemDao<Event> {
             addStmt.setDate(9, (Date) event.getDate());
             addStmt.executeUpdate();
         } catch (SQLException e) {
-            throw new MyException("Error add event");
+            throw new DaoException("Error add event");
         }
     }
 
-    public void delete(int id) throws MyException {
+    public void delete(int id) throws DaoException {
         try {
             deleteStmt.setInt(1, id);
             deleteStmt.executeUpdate();
         } catch (SQLException e) {
-            throw new MyException("Error delete event");
+            throw new DaoException("Error delete event");
         }
     }
 }

@@ -4,12 +4,12 @@ import com.oleg.first.Model;
 
 public interface ItemDao<T extends Model> {
 
-    T getById(int id) throws MyException;
+    T getById(int id) throws DaoException;
 
-     void add(T model) throws MyException;
+     void add(T model) throws DaoException;
 
-    void update(T model) throws MyException;
+    void update(T model) throws DaoException;
 
-    void delete(int id) throws MyException;
+    void delete(int id) throws DaoException;
 
 }

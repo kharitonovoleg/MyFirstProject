@@ -1,14 +1,14 @@
 package com.oleg.dao;
 
-public class MyException extends Exception {
+public class DaoException extends Exception {
 
     private Exception hidden;
 
-    public MyException(String message) {
+    public DaoException(String message) {
         super(message);
     }
 
-    public MyException(String message, Exception e) {
+    public DaoException(String message, Exception e) {
         super(message);
         hidden = e;
     }
