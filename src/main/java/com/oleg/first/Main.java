@@ -9,9 +9,11 @@ public class Main {
     public static void main(String[] args) throws DaoException, SQLException {
 
         UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+        EventDatabaseDao eventDatabaseDao = new EventDatabaseDao();
 
         System.out.println(userDatabaseDao.getById(1));
+        System.out.println(eventDatabaseDao.getById(1));
 
-        userDatabaseDao.closeDao();
+        userDatabaseDao.close();
     }
 }
