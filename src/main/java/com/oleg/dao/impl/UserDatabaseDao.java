@@ -4,10 +4,8 @@ import com.oleg.dao.ItemDao;
 import com.oleg.dao.DaoException;
 import com.oleg.first.ConnectorDB;
 import com.oleg.first.User;
-import com.sun.deploy.util.StringUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class UserDatabaseDao implements ItemDao<User> {
 
@@ -89,7 +87,7 @@ public class UserDatabaseDao implements ItemDao<User> {
         }
     }
 
-    private void closeConnection() throws DaoException, SQLException {
+    private void closeConnection() throws DaoException {
         try {
             con.close();
         } catch (Exception e) {
@@ -98,68 +96,57 @@ public class UserDatabaseDao implements ItemDao<User> {
         System.out.println("Connection close");
     }
 
-//    private void closeStatement() throws DaoException, SQLException {
-//        try {
-//            getByIdStmt.close();
-//        } catch (Exception e) {
-//            throw new DaoException("Error! getByIdStmt is not closed");
-//        }
-//        try {
-//            updateStmt.close();
-//        } catch (Exception e) {
-//            throw new DaoException("Error! updateStmt is not closed");
-//        }
-//        try {
-//            addStmt.close();
-//        } catch (Exception e) {
-//            throw new DaoException("Error! addStmt is not closed");
-//        }
-//        try {
-//            deleteStmt.close();
-//        } catch (Exception e) {
-//            throw new DaoException("Error! deleteStmt is not closed");
-//        }
-//        System.out.println("Statement close");
-//    }
-
-    private void closeStatement() throws DaoException, SQLException {
-        ArrayList<String> err = new ArrayList<String>();
+    private void closeStatement() throws DaoException {
+        Exception exception = null;
         try {
             getByIdStmt.close();
-        } catch (Exception e) {
-            err.add("getByIdStmt");
+        } catch (SQLException e) {
+            exception = e;
+            System.out.println("Attention! getByIdStmt not closed!");
         }
         try {
             updateStmt.close();
-        } catch (Exception e) {
-            err.add("updateStmt");
+        } catch (SQLException e) {
+            exception = e;
+            System.out.println("Attention!  updateStmt not closed!");
         }
         try {
             addStmt.close();
-        } catch (Exception e) {
-            err.add("addStmt");
+        } catch (SQLException e) {
+            exception = e;
+            System.out.println("Attention! addStmt not closed!");
         }
         try {
             deleteStmt.close();
-        } catch (Exception e) {
-            err.add("deleteStmt");
+        } catch (SQLException e) {
+            exception = e;
+            System.out.println("Attention! deleteStmt not closed!");
         }
-        if (!err.isEmpty()) {
+        if (exception != null)
+        {
             throw new DaoException("Error! Statement is not closed");
         }
-        System.out.println("Statement close");
     }
 
-    public void close() throws DaoException, SQLException {
+    public void close() throws DaoException {
+        Exception exception = null;
         try {
             closeStatement();
+            System.out.println("Statement close");
         } catch (Exception e) {
+            exception = e;
             System.out.println("Attention! There was an error in method closeStatement");
         }
         try {
             closeConnection();
         } catch (Exception e) {
+            exception = e;
             System.out.println("Attention! There was an error in method closeConnection");
         }
+        if (exception != null)
+        {
+            throw new DaoException("Error in method \"close()\"");
+        }
+
     }
 }

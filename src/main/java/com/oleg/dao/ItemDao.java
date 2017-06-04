@@ -2,7 +2,7 @@ package com.oleg.dao;
 
 import com.oleg.first.Model;
 
-public interface ItemDao<T extends Model> {
+public interface ItemDao <T extends Model> {
 
     T getById(int id) throws DaoException;
 
