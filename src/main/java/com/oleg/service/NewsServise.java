@@ -1,23 +1,21 @@
 package com.oleg.service;
 
-import com.oleg.dao.DaoException;
 
-import com.oleg.dao.impl.UserDatabaseDao;
+import com.oleg.dao.DaoException;
+import com.oleg.dao.impl.NewsDatabaseDao;
 import com.oleg.entity.Model;
 
+public class NewsServise implements Service {
 
-public class UserService implements Service {
-    UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+    NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao();
 
-    public UserService() throws DaoException {
+    public NewsServise() throws DaoException {
     }
-
 
     @Override
     public Model getById(int id) throws DaoException {
-        return this.userDatabaseDao.getById(id);
+        return this.newsDatabaseDao.getById(id);
     }
-
 
     @Override
     public void add(Model model) throws DaoException {
@@ -31,8 +29,6 @@ public class UserService implements Service {
 
     @Override
     public void delete(int id) throws DaoException {
-
+        newsDatabaseDao.delete(id);
     }
-
-
 }

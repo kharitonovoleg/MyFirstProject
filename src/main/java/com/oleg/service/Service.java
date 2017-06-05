@@ -1,7 +1,7 @@
 package com.oleg.service;
 
 import com.oleg.dao.DaoException;
-import com.oleg.first.Model;
+import com.oleg.entity.Model;
 
 
 public interface Service <T extends Model>{

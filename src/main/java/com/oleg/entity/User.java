@@ -1,4 +1,4 @@
-package com.oleg.first;
+package com.oleg.entity;
 
 public class User extends Model {
 

@@ -2,8 +2,8 @@ package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
 import com.oleg.dao.DaoException;
-import com.oleg.first.ConnectorDB;
-import com.oleg.first.UserEvent;
+import com.oleg.entity.ConnectorDB;
+import com.oleg.entity.UserEvent;
 import java.sql.*;
 
 public class UserEventDatabaseDao implements ItemDao<UserEvent> {

@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Event</title>
+    <title>com.oleg.Controller.Event</title>
 </head>
 <body>
 
-<form name="event" method=post action="">
+<form name="event" method=post action="Event">
 
     <td align="left" valign="top">
         <table>
@@ -30,7 +30,7 @@
                 </tr>
             </table>
 
-            <table> Select event type <select name="eventType" size="1">
+            <table> Select event type <select name="type" size="1">
                 <option selected value="party"> Party
                 <option value="concert"> Concert
                 <option value="exhibition"> Exhibition
@@ -82,7 +82,7 @@
             </table>
 
             <table>
-                <tr> Event start time <br>
+                <tr> com.oleg.Controller.Event start time <br>
                     <input type="time" name="eventStartTime" size="30" maxlength="50" placeholder="start time"
                            style="background: white">
                 </tr>

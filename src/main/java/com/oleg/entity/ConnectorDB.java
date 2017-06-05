@@ -1,4 +1,4 @@
-package com.oleg.first;
+package com.oleg.entity;
 
 import com.oleg.dao.DaoException;
 import java.util.ResourceBundle;

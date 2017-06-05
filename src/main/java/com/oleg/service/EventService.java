@@ -1,27 +1,24 @@
 package com.oleg.service;
 
 import com.oleg.dao.DaoException;
-
-import com.oleg.dao.impl.UserDatabaseDao;
+import com.oleg.dao.impl.EventDatabaseDao;
 import com.oleg.entity.Model;
 
 
-public class UserService implements Service {
-    UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+public class EventService implements Service {
 
-    public UserService() throws DaoException {
+    EventDatabaseDao eventDatabaseDao = new EventDatabaseDao();
+
+    public EventService() throws DaoException {
     }
-
 
     @Override
     public Model getById(int id) throws DaoException {
-        return this.userDatabaseDao.getById(id);
+        return this.eventDatabaseDao.getById(id);
     }
-
 
     @Override
     public void add(Model model) throws DaoException {
-
     }
 
     @Override
@@ -31,8 +28,6 @@ public class UserService implements Service {
 
     @Override
     public void delete(int id) throws DaoException {
-
+        eventDatabaseDao.delete(id);
     }
-
-
 }

@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>Event</servlet-name>
-        <servlet-class>Event</servlet-class>
+        <servlet-class>com.oleg.Controller.Event</servlet-class>
     </servlet>
 
     <servlet-mapping>

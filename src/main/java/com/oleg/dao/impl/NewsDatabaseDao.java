@@ -2,8 +2,8 @@ package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
 import com.oleg.dao.DaoException;
-import com.oleg.first.ConnectorDB;
-import com.oleg.first.News;
+import com.oleg.entity.ConnectorDB;
+import com.oleg.entity.News;
 
 import java.sql.*;
 
@@ -19,7 +19,7 @@ public class NewsDatabaseDao implements ItemDao<News> {
     public NewsDatabaseDao() throws DaoException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, header, text, date FROM news WHERE id=?");
-            updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=?, WHERE id=?");
+            updateStmt = con.prepareStatement("UPDATE news SET header=?, text=?, date=? WHERE id=?");
             addStmt = con.prepareStatement("INSERT INTO news (header, text, date)" +
                     " VALUES (?,?,?)");
             deleteStmt = con.prepareStatement("DELETE FROM news WHERE id=?");

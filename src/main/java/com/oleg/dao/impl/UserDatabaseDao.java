@@ -2,8 +2,8 @@ package com.oleg.dao.impl;
 
 import com.oleg.dao.ItemDao;
 import com.oleg.dao.DaoException;
-import com.oleg.first.ConnectorDB;
-import com.oleg.first.User;
+import com.oleg.entity.ConnectorDB;
+import com.oleg.entity.User;
 
 import java.sql.*;
 
@@ -19,7 +19,7 @@ public class UserDatabaseDao implements ItemDao<User> {
     public UserDatabaseDao() throws DaoException {
         try {
             getByIdStmt = con.prepareStatement("SELECT id, nickname, firstName, secondName, password, email FROM user WHERE id=?");
-            updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=?, WHERE id=?");
+            updateStmt = con.prepareStatement("UPDATE user SET nickname=?, firstName=?, secondName=? WHERE id=?");
             addStmt = con.prepareStatement("INSERT INTO user (nickname, firstName, secondName, password, email)" +
                     " VALUES (?,?,?,?,?)");
             deleteStmt = con.prepareStatement("DELETE FROM user WHERE id=?");
@@ -149,4 +149,6 @@ public class UserDatabaseDao implements ItemDao<User> {
         }
 
     }
+
+
 }
