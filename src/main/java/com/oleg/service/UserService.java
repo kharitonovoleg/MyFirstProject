@@ -7,7 +7,7 @@ import com.oleg.entity.Model;
 
 
 public class UserService implements Service {
-    UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
+    private UserDatabaseDao userDatabaseDao = new UserDatabaseDao();
 
     public UserService() throws DaoException {
     }

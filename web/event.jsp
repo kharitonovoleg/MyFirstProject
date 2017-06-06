@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form name="event" method=post action="Event">
+<form name="event" method="post" action="Event">
 
     <td align="left" valign="top">
         <table>

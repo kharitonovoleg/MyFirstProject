@@ -7,7 +7,7 @@ import com.oleg.entity.Model;
 
 public class UserEventServise implements Service {
 
-    UserEventDatabaseDao userEventDatabaseDao = new UserEventDatabaseDao();
+    private UserEventDatabaseDao userEventDatabaseDao = new UserEventDatabaseDao();
 
     public UserEventServise() throws DaoException {
     }

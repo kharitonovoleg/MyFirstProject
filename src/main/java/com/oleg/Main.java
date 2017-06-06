@@ -1,4 +1,4 @@
-package com.oleg.entity;
+package com.oleg;
 
 import com.oleg.dao.DaoException;
 import com.oleg.dao.impl.*;

@@ -1,4 +1,4 @@
-package com.oleg.entity;
+package com.oleg.Connection;
 
 import com.oleg.dao.DaoException;
 import java.util.ResourceBundle;

@@ -7,7 +7,7 @@ import com.oleg.entity.Model;
 
 public class NewsServise implements Service {
 
-    NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao();
+    private NewsDatabaseDao newsDatabaseDao = new NewsDatabaseDao();
 
     public NewsServise() throws DaoException {
     }
