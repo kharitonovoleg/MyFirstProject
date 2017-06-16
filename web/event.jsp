@@ -11,14 +11,14 @@
 
             <table>
                 <tr> Enter event name <br>
-                    <input type="text" name="eventName" size="100" maxlength="100" placeholder="eventName"
+                    <input type="text" name="eventName" size="30" maxlength="100" placeholder="eventName"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> About event <br>
-                    <input type="text" name="text" maxlength="1500" placeholder="about event" style="background: white">
+                    <input type="text" name="text" size="30" maxlength="1500" placeholder="about event" style="background: white">
                 </tr>
             </table>
 
@@ -32,21 +32,21 @@
 
             <table>
                 <tr> City <br>
-                    <input type="text" name="city" size="100" maxlength="100" placeholder="city"
+                    <input type="text" name="city" size="30" maxlength="100" placeholder="city"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Street <br>
-                    <input type="text" name="street" size="100" maxlength="100" placeholder="street"
+                    <input type="text" name="street" size="30" maxlength="100" placeholder="street"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Building <br>
-                    <input type="text" name="building" size="50" maxlength="20" placeholder="building"
+                    <input type="text" name="building" size="30" maxlength="20" placeholder="building"
                            style="background: white">
                 </tr>
             </table>
@@ -54,35 +54,35 @@
 
             <table>
                 <tr> Building index <br>
-                    <input type="text" name="buildingIndex" size="50" maxlength="20" placeholder="buildingIndex"
+                    <input type="text" name="buildingIndex" size="30" maxlength="20" placeholder="buildingIndex"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Contact mobile phone (+375xxxхxxxхх) <br>
-                    <input type="text" name="mobilePhone" size="50" maxlength="20" placeholder="mobilePhone"
+                    <input type="text" name="mobilePhone" size="30" maxlength="20" placeholder="mobilePhone"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Contact phone (+375xxxхxxxхх) <br>
-                    <input type="text" name="phone" size="50" maxlength="20" placeholder="phone"
+                    <input type="text" name="phone" size="30" maxlength="20" placeholder="phone"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Start time <br>
-                    <input type="time" name="eventStartTime" size="50" maxlength="50" placeholder="start time"
+                    <input type="time" name="eventStartTime" size="30" maxlength="50" placeholder="start time"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Date <br>
-                    <input type="date" name="date" size="50" maxlength="50" placeholder="date"
+                    <input type="date" name="date" size="30" maxlength="50" placeholder="date"
                            style="background: white">
                 </tr>
             </table>

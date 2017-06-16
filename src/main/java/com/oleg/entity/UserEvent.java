@@ -10,8 +10,7 @@ public class UserEvent extends Model {
         this.eventId = eventId;
     }
 
-    public UserEvent(int id) {
-        super(id);
+    public UserEvent() {
     }
 
     public int getUserId() {

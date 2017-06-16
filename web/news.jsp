@@ -12,20 +12,20 @@
 
             <table>
                 <tr> News header <br>
-                    <input type="text" name="header" size="50" maxlength="255" placeholder="header"
+                    <input type="text" name="header" size="30" maxlength="255" placeholder="header"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> news text <br>
-                    <input type="text" name="text" maxlength="1500" placeholder="news text" style="background: white">
+                    <input type="text" name="text" size="30" maxlength="1500" placeholder="news text" style="background: white">
                 </tr>
             </table>
 
             <table>
                 <tr> Date <br>
-                    <input type="date" name="date" size="50"  placeholder="date"
+                    <input type="date" name="date" size="30"  placeholder="date"
                            style="background: white">
                 </tr>
             </table>
