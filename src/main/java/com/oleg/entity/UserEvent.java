@@ -5,6 +5,15 @@ public class UserEvent extends Model {
     private int userId;
     private int eventId;
 
+    public UserEvent(int userId, int eventId) {
+        this.userId = userId;
+        this.eventId = eventId;
+    }
+
+    public UserEvent(int id) {
+        super(id);
+    }
+
     public int getUserId() {
         return userId;
     }

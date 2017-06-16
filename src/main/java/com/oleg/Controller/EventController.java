@@ -11,8 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet(name = "com.oleg.Controller.Event")
-public class Event extends HttpServlet {
+@WebServlet(name = "EventController")
+public class EventController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -24,7 +24,7 @@ public class Event extends HttpServlet {
         String street = request.getParameter("street");
         String mobilePhone = request.getParameter("mobilePhone");
         String phone = request.getParameter("phone");
-        Time eventStartTime = Time.valueOf(request.getParameter("eventStartTime"));
+        //Time eventStartTime = Time.valueOf(request.getParameter("eventStartTime"));
 
         String d = request.getParameter("date");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.mm.yy");

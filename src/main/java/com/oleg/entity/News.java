@@ -8,6 +8,15 @@ public class News extends Model {
     private String text;
     private Date date;
 
+    public News(String header, String text, Date date) {
+        this.header = header;
+        this.text = text;
+        this.date = date;
+    }
+
+    public News() {
+    }
+
     public String getHeader() {
         return header;
     }

@@ -104,7 +104,7 @@ public class Event extends Model {
 
     @Override
     public String toString() {
-        return "com.oleg.Controller.Event{" +
+        return "com.oleg.Controller.EventController{" +
                 "id=" + id +
                 ", eventName= " + eventName +
                 ", text= " + text +

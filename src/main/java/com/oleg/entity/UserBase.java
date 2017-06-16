@@ -5,6 +5,14 @@ public class UserBase extends Model {
     private int userId;
     private int userEventId;
 
+    public UserBase(int userId, int userEventId) {
+        this.userId = userId;
+        this.userEventId = userEventId;
+    }
+
+    public UserBase() {
+    }
+
     public int getUserId() {
         return userId;
     }
