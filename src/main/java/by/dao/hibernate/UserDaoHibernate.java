@@ -1,6 +1,5 @@
 package by.dao.hibernate;
 
-
 import by.model.User;
 import by.util.HibernateUtil;
 import org.hibernate.Query;
