@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form name="user" method="post" action="/addUser">
+<form name="userEntity" method="post" action="/addUser">
 
     <td align="left" valign="top">
         <table>
@@ -43,7 +43,7 @@
                 </tr>
             </table>
 
-            <input type="submit" value="Add user">
+            <input type="submit" value="Add userEntity">
 
         </table>
 

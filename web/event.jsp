@@ -4,25 +4,25 @@
     <title>EVENT</title>
 </head>
 <body>
-<form name="event" method="post" action="/addEvent">
+<form name="eventEntity" method="post" action="/addEvent">
 
     <td align="left" valign="top">
         <table>
 
             <table>
-                <tr> Enter event name <br>
+                <tr> Enter eventEntity name <br>
                     <input type="text" name="eventName" size="30" maxlength="100" placeholder="eventName"
                            style="background: white">
                 </tr>
             </table>
 
             <table>
-                <tr> About event <br>
-                    <input type="text" name="text" size="30" maxlength="1500" placeholder="about event" style="background: white">
+                <tr> About eventEntity <br>
+                    <input type="text" name="text" size="30" maxlength="1500" placeholder="about eventEntity" style="background: white">
                 </tr>
             </table>
 
-            <table> Select event type <select name="type" size="1">
+            <table> Select eventEntity type <select name="type" size="1">
                 <option selected value="party"> Party
                 <option value="concert"> Concert
                 <option value="exhibition"> Exhibition
@@ -87,7 +87,7 @@
                 </tr>
             </table>
 
-            <input type="submit" value="Add event">
+            <input type="submit" value="Add eventEntity">
 
         </table>
 

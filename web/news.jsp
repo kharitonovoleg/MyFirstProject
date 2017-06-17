@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form name="news" method="post" action="/addNews">
+<form name="newsEntity" method="post" action="/addNews">
 
     <td align="left" valign="top">
         <table>
@@ -18,8 +18,8 @@
             </table>
 
             <table>
-                <tr> news text <br>
-                    <input type="text" name="text" size="30" maxlength="1500" placeholder="news text" style="background: white">
+                <tr> newsEntity text <br>
+                    <input type="text" name="text" size="30" maxlength="1500" placeholder="newsEntity text" style="background: white">
                 </tr>
             </table>
 
@@ -30,7 +30,7 @@
                 </tr>
             </table>
 
-            <input type="submit" value="Add news">
+            <input type="submit" value="Add newsEntity">
 
         </table>
 

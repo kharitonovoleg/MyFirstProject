@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>UserController</servlet-name>
-        <servlet-class>com.oleg.Controller.UserController</servlet-class>
+        <servlet-class>by.controller.UserController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.oleg.LoginLogout.LoginServlet</servlet-class>
+        <servlet-class>by.loginLogoutServlets.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>com.oleg.LoginLogout.LogoutServlet</servlet-class>
+        <servlet-class>by.loginLogoutServlets.LogoutServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
