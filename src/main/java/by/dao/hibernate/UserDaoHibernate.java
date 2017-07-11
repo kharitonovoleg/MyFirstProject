@@ -17,6 +17,7 @@ public class UserDaoHibernate {
         session.close();
     }
 
+
     public User getUser (int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
