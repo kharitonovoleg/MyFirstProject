@@ -1,5 +1,5 @@
-# Разработка Web-приложения с целью изучения Java. 
-## используемые технологии: JDBC, Hibernate Spring MVC, Apache TomCat, SQL, Bootstrap
+# MyMeetingPoint. Web-приложение для организации встреч и планирования событий. 
+## используемые технологии: Servlets, JSP, JDBC, Hibernate, Apache TomCat, Maven, MySQL, Twitter Bootstrap
 
 Минск 2017
 
