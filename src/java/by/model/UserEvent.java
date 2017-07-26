@@ -6,12 +6,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_event", schema = "first_project")
 public class UserEvent {
-    private int id;
-    private int userId;
-    private int eventId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Basic
+    @Column(name = "userId")
+    private int userId;
+
+    @Basic
+    @Column(name = "eventId")
+    private int eventId;
+
     public int getId() {
         return id;
     }
@@ -20,8 +27,6 @@ public class UserEvent {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "userId")
     public int getUserId() {
         return userId;
     }
@@ -30,8 +35,6 @@ public class UserEvent {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "eventId")
     public int getEventId() {
         return eventId;
     }

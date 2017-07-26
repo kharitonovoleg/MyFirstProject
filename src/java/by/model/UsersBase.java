@@ -4,14 +4,21 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "users_base", schema = "first_project")
+@Table(name = "users_base")
 public class UsersBase {
-    private int id;
-    private int userId;
-    private int userEventId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Basic
+    @Column(name = "userId")
+    private int userId;
+
+    @Basic
+    @Column(name = "userEventId")
+    private int userEventId;
+
     public int getId() {
         return id;
     }
@@ -20,8 +27,6 @@ public class UsersBase {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "userId")
     public int getUserId() {
         return userId;
     }
@@ -30,8 +35,6 @@ public class UsersBase {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "userEventId")
     public int getUserEventId() {
         return userEventId;
     }

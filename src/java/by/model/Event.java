@@ -9,21 +9,55 @@ import java.util.Arrays;
 @Entity
 @Table(name = "event", schema = "first_project")
 public class Event {
-    private int id;
-    private String eventName;
-    private byte[] text;
-    private String type;
-    private String city;
-    private String street;
-    private int building;
-    private String buildingIndex;
-    private String mobilePhone;
-    private String phone;
-    private Time eventStartTime;
-    private Date date;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Basic
+    @Column(name = "eventName")
+    private String eventName;
+
+    @Basic
+    @Column(name = "text")
+    private byte[] text;
+
+    @Basic
+    @Column(name = "type")
+    private String type;
+
+    @Basic
+    @Column(name = "city")
+    private String city;
+
+    @Basic
+    @Column(name = "street")
+    private String street;
+
+    @Basic
+    @Column(name = "building")
+    private int building;
+
+    @Basic
+    @Column(name = "buildingIndex")
+    private String buildingIndex;
+
+    @Basic
+    @Column(name = "mobilePhone")
+    private String mobilePhone;
+
+    @Basic
+    @Column(name = "phone")
+    private String phone;
+
+    @Basic
+    @Column(name = "eventStartTime")
+    private Time eventStartTime;
+
+    @Basic
+    @Column(name = "date")
+    private Date date;
+
     public int getId() {
         return id;
     }
@@ -32,8 +66,6 @@ public class Event {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "eventName")
     public String getEventName() {
         return eventName;
     }
@@ -42,8 +74,6 @@ public class Event {
         this.eventName = eventName;
     }
 
-    @Basic
-    @Column(name = "text")
     public byte[] getText() {
         return text;
     }
@@ -52,8 +82,6 @@ public class Event {
         this.text = text;
     }
 
-    @Basic
-    @Column(name = "type")
     public String getType() {
         return type;
     }
@@ -62,8 +90,6 @@ public class Event {
         this.type = type;
     }
 
-    @Basic
-    @Column(name = "city")
     public String getCity() {
         return city;
     }
@@ -72,8 +98,6 @@ public class Event {
         this.city = city;
     }
 
-    @Basic
-    @Column(name = "street")
     public String getStreet() {
         return street;
     }
@@ -82,8 +106,6 @@ public class Event {
         this.street = street;
     }
 
-    @Basic
-    @Column(name = "building")
     public int getBuilding() {
         return building;
     }
@@ -92,8 +114,6 @@ public class Event {
         this.building = building;
     }
 
-    @Basic
-    @Column(name = "buildingIndex")
     public String getBuildingIndex() {
         return buildingIndex;
     }
@@ -102,8 +122,6 @@ public class Event {
         this.buildingIndex = buildingIndex;
     }
 
-    @Basic
-    @Column(name = "mobilePhone")
     public String getMobilePhone() {
         return mobilePhone;
     }
@@ -112,8 +130,6 @@ public class Event {
         this.mobilePhone = mobilePhone;
     }
 
-    @Basic
-    @Column(name = "phone")
     public String getPhone() {
         return phone;
     }
@@ -122,8 +138,6 @@ public class Event {
         this.phone = phone;
     }
 
-    @Basic
-    @Column(name = "eventStartTime")
     public Time getEventStartTime() {
         return eventStartTime;
     }
@@ -132,8 +146,6 @@ public class Event {
         this.eventStartTime = eventStartTime;
     }
 
-    @Basic
-    @Column(name = "date")
     public Date getDate() {
         return date;
     }

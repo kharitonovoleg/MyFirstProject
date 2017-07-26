@@ -1,19 +1,43 @@
 package by.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "user", schema = "first_project")
+@Table(name = "user")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Basic
+    @Column(name = "nickname")
     private String nickname;
+
+    @Basic
+    @Column(name = "firstName")
     private String firstName;
+
+    @Basic
+    @Column(name = "secondName")
     private String secondName;
+
+    @Basic
+    @Column(name = "password")
     private String password;
+
+    @Basic
+    @Column(name = "email")
     private String email;
 
-    @Id
-    @Column(name = "id")
+    @Transient
+    private String confirmPassword;
+
+    @ManyToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     public int getId() {
         return id;
     }
@@ -22,8 +46,6 @@ public class User {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "nickname")
     public String getNickname() {
         return nickname;
     }
@@ -32,8 +54,6 @@ public class User {
         this.nickname = nickname;
     }
 
-    @Basic
-    @Column(name = "firstName")
     public String getFirstName() {
         return firstName;
     }
@@ -42,8 +62,6 @@ public class User {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "secondName")
     public String getSecondName() {
         return secondName;
     }
@@ -52,8 +70,6 @@ public class User {
         this.secondName = secondName;
     }
 
-    @Basic
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -62,14 +78,28 @@ public class User {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

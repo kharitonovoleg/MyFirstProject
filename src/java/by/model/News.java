@@ -8,13 +8,23 @@ import java.util.Arrays;
 @Entity
 @Table(name = "news", schema = "first_project")
 public class News {
-    private int id;
-    private String header;
-    private byte[] text;
-    private Date date;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Basic
+    @Column(name = "header")
+    private String header;
+
+    @Basic
+    @Column(name = "text")
+    private byte[] text;
+
+    @Basic
+    @Column(name = "date")
+    private Date date;
+
     public int getId() {
         return id;
     }
@@ -23,8 +33,6 @@ public class News {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "header")
     public String getHeader() {
         return header;
     }
@@ -33,8 +41,6 @@ public class News {
         this.header = header;
     }
 
-    @Basic
-    @Column(name = "text")
     public byte[] getText() {
         return text;
     }
@@ -43,8 +49,6 @@ public class News {
         this.text = text;
     }
 
-    @Basic
-    @Column(name = "date")
     public Date getDate() {
         return date;
     }
